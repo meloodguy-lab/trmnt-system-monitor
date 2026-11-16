@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRMNL System Monitor - Live Simulator</title>
+  <link rel="stylesheet" href="https://usetrmnl.com">
+  <style>
+    body {
+      background-color: #1e1e2e;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 15px;
+      color: #fff;
+      margin: 0;
+    }
+    .header-info {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .header-info h1 { margin: 0 0 5px 0; font-size: 22px; }
+    .header-info p { margin: 0; color: #a6adc8; font-size: 14px; }
+    
+    .eink-frame {
+      background: #f4f4f0;
+      border: 14px solid #2b2b2b;
+      border-radius: 16px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      width: 800px;
+      max-width: 100%;
+      height: 480px;
+      overflow: hidden;
+      color: #000;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .controls {
+      background: #2b2b3b;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 25px;
+      width: 800px;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .controls h3 { margin: 0 0 15px 0; font-size: 16px; color: #f9e2af; }
+    .inputs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+    }
+    .input-group { display: flex; flex-direction: column; }
+    .input-group label { font-size: 12px; color: #bac2de; margin-bottom: 4px; }
+    .input-group input {
+      background: #181825;
+      border: 1px solid #45475a;
+      color: #fff;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .btn-sim {
+      margin-top: 15px;
+      background: #a6e3a1;
+      color: #11111b;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-sim:hover { background: #94e2d5; }
+  </style>
+</head>
+<body>
+
+  <div class="header-info">
+    <h1>TRMNL System Monitor — Interactive Preview</h1>
+    <p>Live E-Ink Screen Simulator for Linux Bash Script</p>
+  </div>
+
+  <div class="eink-frame">
+    <div class="view view--full" style="height: 100%;">
+      <div class="layout layout--col gap--space-between">
+        
+        <div class="flex flex--row flex--center-y gap--medium">
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          <div class="flex flex--col">
+            <span class="title" id="disp-host">backbox-linux</span>
+            <span class="label label--small"><span id="disp-os">Ubuntu 22.04 LTS</span> | IP: <span id="disp-ip">192.168.1.45</span> | Up: <span id="disp-up">3 hours, 25 mins</span></span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="grid grid--cols-2 gap--medium">
+          <div class="item flex flex--row flex--center-y gap--small">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2">
+              <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+              <rect x="9" y="9" width="6" height="6"></rect>
+              <line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line>
+              <line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line>
+              <line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line>
+              <line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line>
+            </svg>
+            <div class="content">
+              <span class="label">CPU LOAD</span>
+              <span class="value value--small" id="disp-cpu">0.42</span>
+            </div>
+          </div>
+
+          <div class="item flex flex--row flex--center-y gap--small">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2">
+              <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+              <path d="M6 12h.01M10 12h.01M14 12h.01M18 12h.01"></path>
+              <path d="M6 18v2M10 18v2M14 18v2M18 18v2"></path>
+            </svg>
+            <div class="content">
+              <span class="label">RAM USAGE</span>
+              <span class="value value--small" id="disp-ram">3420/8192MB (42%)</span>
+            </div>
+          </div>
+
+          <div class="item flex flex--row flex--center-y gap--small">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2">
+              <line x1="22" y1="12" x2="2" y2="12"></line>
+              <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+              <line x1="6" y1="16" x2="6.01" y2="16"></line><line x1="10" y1="16" x2="10.01" y2="16"></line>
+            </svg>
+            <div class="content">
+              <span class="label">DISK USAGE</span>
+              <span class="value value--small" id="disp-disk">28G/120G (24%)</span>
+            </div>
+          </div>
+
+          <div class="item flex flex--row flex--center-y gap--small">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2">
+              <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+            </svg>
+            <div class="content">
+              <span class="label">TEMPERATURE</span>
+              <span class="value value--small" id="disp-temp">48.5°C</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="title_bar">
+        <span class="title">System Monitor</span>
+        <span class="instance">Status: Online</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <h3>⚡ Test Live Data (Simulate Webhook Payload)</h3>
+    <div class="inputs-grid">
+      <div class="input-group">
+        <label>Hostname</label>
+        <input type="text" id="in-host" value="backbox-linux" oninput="updateScreen()">
+      </div>
+      <div class="input-group">
+        <label>CPU Load</label>
+        <input type="text" id="in-cpu" value="0.42" oninput="updateScreen()">
+      </div>
+      <div class="input-group">
+        <label>RAM Usage</label>
+        <input type="text" id="in-ram" value="3420/8192MB (42%)" oninput="updateScreen()">
+      </div>
+      <div class="input-group">
+        <label>Disk Usage</label>
+        <input type="text" id="in-disk" value="28G/120G (24%)" oninput="updateScreen()">
+      </div>
+      <div class="input-group">
+        <label>Temperature</label>
+        <input type="text" id="in-temp" value="48.5°C" oninput="updateScreen()">
+      </div>
+      <div class="input-group">
+        <label>Local IP</label>
+        <input type="text" id="in-ip" value="192.168.1.45" oninput="updateScreen()">
+      </div>
+    </div>
+    <button class="btn-sim" onclick="randomizeStats()">🎲 Simulate Random Server Load</button>
+  </div>
+
+  <script>
+    function updateScreen() {
+      document.getElementById('disp-host').innerText = document.getElementById('in-host').value;
+      document.getElementById('disp-cpu').innerText = document.getElementById('in-cpu').value;
+      document.getElementById('disp-ram').innerText = document.getElementById('in-ram').value;
+      document.getElementById('disp-disk').innerText = document.getElementById('in-disk').value;
+      document.getElementById('disp-temp').innerText = document.getElementById('in-temp').value;
+      document.getElementById('disp-ip').innerText = document.getElementById('in-ip').value;
+    }
+
+    function randomizeStats() {
+      const cpu = (Math.random() * 3.5 + 0.1).toFixed(2);
+      const ramUsed = Math.floor(Math.random() * 5000 + 1500);
+      const ramPct = Math.round((ramUsed / 8192) * 100);
+      const temp = (Math.random() * 35 + 40).toFixed(1) + "°C";
+      
+      document.getElementById('in-cpu').value = cpu;
+      document.getElementById('in-ram').value = `${ramUsed}/8192MB (${ramPct}%)`;
+      document.getElementById('in-temp').value = temp;
+      updateScreen();
+    }
+  </script>
+
+</body>
+</html>
