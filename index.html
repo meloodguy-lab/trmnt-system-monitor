@@ -2,130 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TRMNL System Monitor</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: #121212;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
-      color: #e0e0e0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-    .page-header { text-align: center; margin-bottom: 24px; }
-    .page-header h1 { font-size: 20px; font-weight: 600; color: #ffffff; }
-    .page-header p { font-size: 13px; color: #888888; margin-top: 4px; }
-
-    .trmnl-screen {
-      width: 800px;
-      max-width: 100%;
-      height: 480px;
-      background-color: #f4f4f0;
-      color: #111111;
-      border: 16px solid #262626;
-      border-radius: 14px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 28px 32px;
-      font-family: "Courier New", Courier, monospace;
-    }
-    .screen-top {
-      border-bottom: 2px solid #111111;
-      padding-bottom: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-    }
+    body { background: #121212; font-family: monospace; color: #e0e0e0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+    .trmnl-screen { width: 800px; max-width: 100%; height: 480px; background: #f4f4f0; color: #111; border: 16px solid #262626; border-radius: 14px; display: flex; flex-direction: column; justify-content: space-between; padding: 28px 32px; }
+    .screen-top { border-bottom: 2px solid #111; padding-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-end; }
     .host-title { font-size: 28px; font-weight: 800; }
-    .host-meta { font-size: 13px; font-weight: 600; margin-top: 4px; color: #333333; }
-    .status-badge {
-      border: 2px solid #111111;
-      padding: 4px 10px;
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      margin: 20px 0;
-      flex-grow: 1;
-    }
-    .metric-box {
-      border: 2px solid #111111;
-      padding: 16px 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background-color: #fafaf7;
-    }
-    .metric-label {
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: #444444;
-      margin-bottom: 8px;
-    }
-    .metric-value { font-size: 24px; font-weight: 800; color: #000000; }
-    .screen-footer {
-      border-top: 2px solid #111111;
-      padding-top: 12px;
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
+    .host-meta { font-size: 13px; font-weight: 600; margin-top: 4px; color: #333; }
+    .status-badge { border: 2px solid #111; padding: 4px 10px; font-size: 12px; font-weight: 800; }
+    .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; flex-grow: 1; }
+    .metric-box { border: 2px solid #111; padding: 16px 20px; display: flex; flex-direction: column; justify-content: center; background: #fafaf7; }
+    .metric-label { font-size: 12px; font-weight: 800; color: #444; margin-bottom: 8px; }
+    .metric-value { font-size: 24px; font-weight: 800; }
+    .screen-footer { border-top: 2px solid #111; padding-top: 12px; display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; }
   </style>
 </head>
 <body>
-
-  <div class="page-header">
-    <h1>TRMNL System Monitor</h1>
-    <p>Real-Time Linux Hardware & System Telemetry Display</p>
-  </div>
-
   <div class="trmnl-screen">
     <div class="screen-top">
       <div>
-        <div class="host-title" id="disp-host">Detecting Host...</div>
-        <div class="host-meta">
-          <span id="disp-os">Linux OS</span> | IP: <span id="disp-ip">Local</span> | UP: <span id="disp-up">Active</span>
-        </div>
+        <div class="host-title" id="disp-host">WORKSTATION</div>
+        <div class="host-meta"><span id="disp-os">Linux OS</span> | IP: <span id="disp-ip">Local</span> | UP: <span id="disp-up">Active</span></div>
       </div>
       <div class="status-badge">ONLINE</div>
     </div>
-
     <div class="metrics-grid">
-      <div class="metric-box">
-        <div class="metric-label">CPU Load Average</div>
-        <div class="metric-value" id="disp-cpu">--</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-label">Memory Usage (RAM)</div>
-        <div class="metric-value" id="disp-ram">--</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-label">Disk Storage</div>
-        <div class="metric-value" id="disp-disk">--</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-label">Core Temperature</div>
-        <div class="metric-value" id="disp-temp">--</div>
-      </div>
+      <div class="metric-box"><div class="metric-label">CPU LOAD / CORES</div><div class="metric-value" id="disp-cpu">8 Cores</div></div>
+      <div class="metric-box"><div class="metric-label">MEMORY USAGE (RAM)</div><div class="metric-value" id="disp-ram">16 GB</div></div>
+      <div class="metric-box"><div class="metric-label">DISK STORAGE</div><div class="metric-value" id="disp-disk">Active</div></div>
+      <div class="metric-box"><div class="metric-label">CORE TEMPERATURE</div><div class="metric-value" id="disp-temp">Normal</div></div>
     </div>
-
     <div class="screen-footer">
-      <span>Plugin: Linux System Monitor</span>
-      <span id="disp-time">Source: Live System</span>
+      <span>PLUGIN: LINUX SYSTEM MONITOR</span>
+      <span id="disp-time">LIVE TELEMETRY</span>
     </div>
   </div>
+  <script>
+    const p = new URLSearchParams(window.location.search);
+    if (p.has('host')) {
+      document.getElementById('disp-host').innerText = p.get('host');
+      if (p.get('os')) document.getElementById('disp-os').innerText = p.get('os');
+      if (p.get('ip')) document.getElementById('disp-ip').innerText = p.get('ip');
+      if (p.get('up')) document.getElementById('disp-up').innerText = p.get('up');
+      if (p.get('cpu')) document.getElementById('disp-cpu').innerText = p.get('cpu');
+      if (p.get('ram')) document.getElementById('disp-ram').innerText = p.get('ram');
+      if (p.get('disk')) document.getElementById('disp-disk').innerText = p.get('disk');
+      if (p.get('temp')) document.getElementById('disp-temp').innerText = p.get('temp');
+    } else {
+      if (navigator.platform) document.getElementById('disp-os').innerText = navigator.platform;
+      if (navigator.hardwareConcurrency) document.getElementById('disp-cpu').innerText = navigator.hardwareConcurrency + ' Logical Cores';
+      if (navigator.deviceMemory) document.getElementById('disp-ram').innerText = navigator.deviceMemory + ' GB Total';
+    }
+  </script>
+</body>
+</html>
